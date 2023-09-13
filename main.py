@@ -23,14 +23,16 @@ class csvReader():
 
 
     def getNormalized(self):
-        normData = self.ogData.copy()
+        normData = self.ogData.values
 
         maxCol, minCol = self._getMaxMin()
 
-        for i in range(len(normData.axes[0])):
-            for j in range(len(normData.axes[1])):
-                normData.iat[i,j]=(normData.iat[i,j]-minCol[j])/(maxCol[j]-minCol[j])
+        for i in range(len(normData)):
+            for j in range(len(normData[i])):
+                normData[i][j]=(normData[i][j]-minCol[j])/(maxCol[j]-minCol[j])
 
+        normData=pd.DataFrame(normData)
+        normData.columns=self.ogData.columns
         return normData
 
     def randomizeData(self):
